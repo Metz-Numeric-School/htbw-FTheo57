@@ -13,6 +13,11 @@ $projectDir = realpath(__DIR__ . '/../');
 $envFileLocal = $projectDir . '/.env.local';
 $envFile = file_exists($envFileLocal) ? '.env.local' : '.env';
 
+// Vérifier que le fichier .env existe
+if (!file_exists($projectDir . '/' . $envFile)) {
+    throw new \Exception("Le fichier .env n'a pas été trouvé dans : " . $projectDir);
+}
+
 // Charger Dotenv
 $dotenv = Dotenv\Dotenv::createImmutable($projectDir, $envFile);
 $dotenv->load();

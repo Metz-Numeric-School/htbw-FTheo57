@@ -35,7 +35,19 @@ class SecurityController extends AbstractController
 
             if($user) {
                 // On vérifie le mot de passe
-                if(password_verify($password, $user->getPassword())){
+                // Support pour les mots de passe hashés (password_verify) et texte clair (pour compatibilité)
+                $passwordMatch = false;
+                $storedPassword = $user->getPassword();
+                
+                // Si le mot de passe stocké commence par $2y$ ou $2a$, c'est un hash bcrypt
+                if (preg_match('/^\$2[ay]\$/', $storedPassword)) {
+                    $passwordMatch = password_verify($password, $storedPassword);
+                } else {
+                    // Sinon, comparaison en texte clair (pour les données de test)
+                    $passwordMatch = ($password === $storedPassword);
+                }
+                
+                if($passwordMatch){
     
                     $_SESSION['user'] = [
                         'id' => $user->getId(),

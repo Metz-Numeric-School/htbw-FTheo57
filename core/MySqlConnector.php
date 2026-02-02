@@ -20,11 +20,15 @@ class MySqlConnector {
     }
 
     private function connect() {
-        $host = $_ENV['DB_HOST'];
-        $port = $_ENV['DB_PORT'];
-        $dbname = $_ENV['DB_DATABASE'];
-        $username = $_ENV['DB_USERNAME'];
-        $password = $_ENV['DB_PASSWORD'];
+        $host = $_ENV['DB_HOST'] ?? null;
+        $port = $_ENV['DB_PORT'] ?? null;
+        $dbname = $_ENV['DB_DATABASE'] ?? null;
+        $username = $_ENV['DB_USERNAME'] ?? null;
+        $password = $_ENV['DB_PASSWORD'] ?? null;
+
+        if (!$host || !$port || !$dbname || !$username) {
+            throw new \Exception("Variables d'environnement de base de données manquantes. Vérifiez votre fichier .env");
+        }
 
         $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
 
@@ -40,10 +44,14 @@ class MySqlConnector {
     }
 
     public static function getServerConnection() {
-        $host = $_ENV['DB_HOST'];
-        $port = $_ENV['DB_PORT'];
-        $username = $_ENV['DB_USERNAME'];
-        $password = $_ENV['DB_PASSWORD'];
+        $host = $_ENV['DB_HOST'] ?? null;
+        $port = $_ENV['DB_PORT'] ?? null;
+        $username = $_ENV['DB_USERNAME'] ?? null;
+        $password = $_ENV['DB_PASSWORD'] ?? null;
+
+        if (!$host || !$port || !$username) {
+            throw new \Exception("Variables d'environnement de base de données manquantes. Vérifiez votre fichier .env");
+        }
 
         $dsn = "mysql:host=$host;port=$port;charset=utf8mb4";
 

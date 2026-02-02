@@ -1,5 +1,4 @@
--- Création de la base de données
-CREATE DATABASE IF NOT EXISTS habit_tracker;
+-- Utilisation de la base de données (doit être créée au préalable avec setup_user.sql)
 USE habit_tracker;
 
 -- Suppression si existante

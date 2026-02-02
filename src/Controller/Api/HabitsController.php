@@ -17,7 +17,7 @@ class HabitController extends AbstractController
     public function index()
     {
         return $this->json([
-            'tickets' => $this->habitRepository->findAll()
+            'habits' => $this->habitRepository->findAll()
         ]);
     }
 

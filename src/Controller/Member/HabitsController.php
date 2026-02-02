@@ -38,7 +38,7 @@ class HabitsController extends AbstractController
 
         $errors = [];
 
-        if (!empty($_POST['habit'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['habit'])) {
             $habit = $_POST['habit'];
 
             if (empty($habit['name'])) {
@@ -46,18 +46,23 @@ class HabitsController extends AbstractController
             }
 
             if (count($errors) === 0) {
-                $this->habitRepository->insert([
-                    'user_id' => $_SESSION['user']['id'],
-                    'name' => $habit['name'],
-                    'description' => $habit['description'] ?? null
-                ]);
+                try {
+                    $this->habitRepository->insert([
+                        'user_id' => $_SESSION['user']['id'],
+                        'name' => trim($habit['name']),
+                        'description' => !empty($habit['description']) ? trim($habit['description']) : null
+                    ]);
 
-                header('Location: /habits');
-                exit;
+                    header('Location: /habits');
+                    exit;
+                } catch (\Exception $e) {
+                    $errors['general'] = 'Une erreur est survenue lors de la creation de l\'habitude : ' . $e->getMessage();
+                }
             }
         }
 
         return $this->render('member/habits/new.html.php', [
+            'title' => 'Créer une habitude',
             'errors' => $errors
         ]);
     }

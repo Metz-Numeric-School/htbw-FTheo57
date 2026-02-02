@@ -3,6 +3,10 @@
 <div class="container py-5">
     <h1>Ajouter une nouvelle habitude</h1>
 
+    <?php if (!empty($errors['general'])): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($errors['general']) ?></div>
+    <?php endif; ?>
+
     <form action="/habits/create" method="post" class="mt-4">
         <div class="mb-3">
             <label for="habit_name" class="form-label">Nom de l'habitude</label>

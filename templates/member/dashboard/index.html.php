@@ -1,7 +1,7 @@
 <?php $layout = 'base.html.php'; ?>
 
 <div class="container py-5">
-    <h1 class="mb-4">Bonjour <?= htmlspecialchars($_SESSION['user']['firstname'] ?? $_SESSION['user']['username'] ?? 'Utilisateur') ?> !</h1>
+    <h1 class="mb-4">Bonjour <?= htmlspecialchars(isset($_SESSION['user']['firstname']) ? $_SESSION['user']['firstname'] : (isset($_SESSION['user']['username']) ? $_SESSION['user']['username'] : 'Utilisateur')) ?> !</h1>
 
     <div class="row mb-4">
         <!-- Statistiques rapides -->

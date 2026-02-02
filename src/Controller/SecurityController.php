@@ -39,12 +39,13 @@ class SecurityController extends AbstractController
                 $passwordMatch = false;
                 $storedPassword = $user->getPassword();
                 
-                // Si le mot de passe stocké commence par $2y$ ou $2a$, c'est un hash bcrypt
-                if (preg_match('/^\$2[ay]\$/', $storedPassword)) {
+                // Si le mot de passe stocké commence par $2y$, $2a$ ou $2b$, c'est un hash bcrypt
+                if (preg_match('/^\$2[aby]\$/', $storedPassword)) {
                     $passwordMatch = password_verify($password, $storedPassword);
                 } else {
                     // Sinon, comparaison en texte clair (pour les données de test)
-                    $passwordMatch = ($password === $storedPassword);
+                    // Comparaison stricte avec trim pour éviter les problèmes d'espaces
+                    $passwordMatch = (trim($password) === trim($storedPassword));
                 }
                 
                 if($passwordMatch){

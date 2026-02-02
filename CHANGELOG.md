@@ -54,3 +54,69 @@ Fichiers modifiés : `src/Controller/RegisterController.php`
 
 Correction de la redirection vers `/dashboard` au lieu de `/user/tickets`
 
+**Injections SQL supplémentaires corrigées**
+
+Remplacement de toutes les concaténations directes par des requêtes préparées dans les repositories
+
+Fichiers modifiés :
+`src/Repository/UserRepository.php` (méthodes `find` et `findByEmail`)
+`src/Repository/HabitRepository.php` (méthodes `find` et `findByUser`)
+`src/Repository/HabitLogRepository.php` (méthode `findByHabit`)
+
+Protection complète contre les injections SQL dans toutes les requêtes
+
+**Faille d'autorisation - Modification d'habitudes**
+
+Fichier modifié : `src/Controller/Member/HabitsController.php`
+
+Ajout d'une vérification que l'habitude appartient à l'utilisateur connecté avant modification dans la méthode `toggle`
+
+Les utilisateurs ne peuvent plus modifier les habitudes d'autres utilisateurs
+
+**Faille d'autorisation - API expose toutes les habitudes**
+
+Fichier modifié : `src/Controller/Api/HabitsController.php`
+
+L'API retourne maintenant uniquement les habitudes de l'utilisateur connecté au lieu de toutes les habitudes
+
+**XSS supplémentaires corrigés**
+
+Ajout de `htmlspecialchars()` sur les variables manquantes dans les templates
+
+Fichiers modifiés :
+`templates/admin/user/index.html.php` (échappement du nom de famille)
+`templates/member/dashboard/index.html.php` (échappement des noms et descriptions d'habitudes)
+
+**Bugs corrigés**
+
+_Erreur fatale lors de la connexion admin_
+
+Fichier modifié : `src/Controller/SecurityController.php`
+
+Correction de l'appel à `getIsAdmin()` en `getIsadmin()` pour correspondre à la méthode de l'entité User
+
+Ajout de `firstname` dans la session utilisateur pour éviter les erreurs dans les templates
+
+Correction de la logique de redirection avec ajout de `exit` manquant
+
+_Redirection 404 après création d'habitude_
+
+Fichier modifié : `src/Controller/Member/HabitsController.php`
+
+Correction de la redirection vers `/habits` au lieu de `/habit` qui n'existe pas
+
+_Nom de classe incorrect dans l'API_
+
+Fichier modifié : `src/Controller/Api/HabitsController.php`
+
+Correction du nom de classe de `HabitController` en `HabitsController` pour correspondre à la route
+
+_Validation d'email manquante_
+
+Fichiers modifiés :
+`src/Controller/RegisterController.php`
+`src/Controller/Admin/UserController.php`
+
+Ajout de la validation du format d'email avec `filter_var`
+
+Ajout de la vérification d'unicité de l'email avant insertion

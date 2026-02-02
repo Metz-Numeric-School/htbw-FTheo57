@@ -52,7 +52,7 @@ class HabitsController extends AbstractController
                     'description' => $habit['description'] ?? null
                 ]);
 
-                header('Location: /habit');
+                header('Location: /habits');
                 exit;
             }
         }
@@ -70,7 +70,18 @@ class HabitsController extends AbstractController
 
         if (!empty($_POST['habit_id'])) {
             $habitId = (int)$_POST['habit_id'];
-            $this->habitLogRepository->toggleToday($habitId);
+            $userId = $_SESSION['user']['id'];
+            
+            // Vérifier que l'habitude appartient à l'utilisateur connecté
+            $habit = $this->habitRepository->find($habitId);
+            if ($habit && $habit->getUserId() === $userId) {
+                $this->habitLogRepository->toggleToday($habitId);
+            } else {
+                // Habitude non trouvée ou n'appartient pas à l'utilisateur
+                http_response_code(403);
+                header('Location: /habits');
+                exit;
+            }
         }
 
         header('Location: /dashboard');

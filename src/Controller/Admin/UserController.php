@@ -39,6 +39,10 @@ class UserController extends AbstractController
 
             if(empty($user['email']))
                 $errors['email'] = 'L\'email est obligatoire';
+            elseif(!filter_var($user['email'], FILTER_VALIDATE_EMAIL))
+                $errors['email'] = 'L\'email n\'est pas valide';
+            elseif($this->userRepository->findByEmail($user['email']))
+                $errors['email'] = 'Cet email est déjà utilisé';
 
             if(empty($user['password']))
                 $errors['password'] = 'Le mot de passe est obligatoire';

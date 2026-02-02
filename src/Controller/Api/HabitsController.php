@@ -5,7 +5,7 @@ namespace App\Controller\Api;
 use App\Repository\HabitRepository;
 use Mns\Buggy\Core\AbstractController;
 
-class HabitController extends AbstractController
+class HabitsController extends AbstractController
 {
     private HabitRepository $habitRepository;
 
@@ -16,8 +16,9 @@ class HabitController extends AbstractController
 
     public function index()
     {
+        $userId = $_SESSION['user']['id'];
         return $this->json([
-            'habits' => $this->habitRepository->findAll()
+            'habits' => $this->habitRepository->findByUser($userId)
         ]);
     }
 

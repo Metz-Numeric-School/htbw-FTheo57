@@ -24,8 +24,9 @@ class HabitLogRepository extends AbstractRepository
 
     public function findByHabit(int $habitId)
     {
-        $sql = "SELECT * FROM habit_logs WHERE habit_id = $habitId ORDER BY log_date DESC";
-        $query = $this->getConnection()->query($sql);
+        $sql = "SELECT * FROM habit_logs WHERE habit_id = :habit_id ORDER BY log_date DESC";
+        $query = $this->getConnection()->prepare($sql);
+        $query->execute(['habit_id' => $habitId]);
         return EntityMapper::mapCollection(HabitLog::class, $query->fetchAll());
     }
 

@@ -1,5 +1,5 @@
--- Utilisation de la base de données (doit être créée au préalable avec setup_user.sql)
-USE habit_tracker;
+-- Utilisation de la base de données
+USE habit_database;
 
 -- Suppression si existante
 DROP TABLE IF EXISTS habit_logs;

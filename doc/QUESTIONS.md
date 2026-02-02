@@ -19,4 +19,11 @@ Pour terminer procéder au paiement pour obtenir le nom de domaine.
    Ensuite il va falloir rediriger le nom de domaine vers l'adresse IP spécifique
 
 3. Comment mettre en place un certificat SSL ?
-   Sur le site aaPanel, il faut se rendre sur l'onglet SSL depuis les paramètres, puis l'installer.
+
+   Méthode avec aaPanel :
+
+   - Dans aaPanel, aller dans **Website** puis ouvrir les **Settings** du site concerné.
+   - Cliquer sur l'onglet **SSL**.
+   - Choisir **Let's Encrypt** : saisir une adresse e-mail valide, cocher le ou les noms de domaine (ex. `foucault.dfs.lan`dans le cas de ce projet).
+   - Cliquer sur **Apply**: aaPanel génère et installe automatiquement le certificat.
+   - Activer **Force HTTPS** si on souhaite rediriger tout le trafic HTTP vers HTTPS.
